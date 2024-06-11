@@ -3,4 +3,5 @@ export interface CardType {
     icon: string;
     isFlipped: boolean;
     isMatched: boolean;
-  }  
+    isVisible: boolean;
+  }

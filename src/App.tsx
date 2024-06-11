@@ -23,7 +23,7 @@ const App: React.FC = () => {
   const createShuffledCards = (): CardType[] => {
     const icons = ['🍎', '🚗', '🎃', '🌻', '💎', '🍌', '🐱', '🦄'];
     const cardArray = [...icons, ...icons].sort(() => Math.random() - 0.5);
-    return cardArray.map((icon, index) => ({ id: index, icon, isFlipped: false, isMatched: false }));
+    return cardArray.map((icon, index) => ({ id: index, icon, isFlipped: false, isMatched: false, isVisible: true }));
   };
 
   const handleCardClick = (id: number) => {
@@ -36,19 +36,32 @@ const App: React.FC = () => {
     if (clickedCard) {
       clickedCard.isFlipped = true;
     }
+    
     if (!firstCard) {
       setFirstCard(clickedCard!);
-    } else if (!secondCard) {
+    } else {
       setSecondCard(clickedCard!);
       setTurns(turns + 1);
 
       if (clickedCard!.icon === firstCard.icon) {
-        setCards(newCards.map(card => card.icon === clickedCard!.icon ? { ...card, isMatched: true } : card));
-        setFirstCard(null);
-        setSecondCard(null);
+        setTimeout(() => {
+          setCards(newCards.map(card => {
+            if (card.icon === clickedCard!.icon) {
+              return { ...card, isMatched: true, isVisible: false };
+            }
+            return card;
+          }));
+          setFirstCard(null);
+          setSecondCard(null);
+        }, 500);
       } else {
         setTimeout(() => {
-          setCards(newCards.map(card => (card?.id === clickedCard?.id || card?.id === firstCard?.id) ? { ...card, isFlipped: false } : card));
+          setCards(newCards.map(card => {
+            if (card.id === clickedCard!.id || card.id === firstCard.id) {
+              return { ...card, isFlipped: false };
+            }
+            return card;
+          }));
           setFirstCard(null);
           setSecondCard(null);
         }, 1000);
