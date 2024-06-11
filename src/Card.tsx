@@ -7,7 +7,8 @@ const CardContainer = styled.div<{ isFlipped: boolean; isMatched: boolean; isVis
   width: 100px;
   height: 100px;
   background-color: ${props => (props.isFlipped || props.isMatched ? '#fff' : '#ccc')};
-  display: ${props => (props.isVisible ? 'flex' : 'none')};
+  visibility: ${props => (props.isVisible ? 'visible' : 'hidden')};
+  display: flex;
   justify-content: center;
   align-items: center;
   font-size: 2em;
