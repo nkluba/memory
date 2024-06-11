@@ -1,6 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import Board from './Board.tsx';
 import { CardType } from './types.ts';
+import styled, { createGlobalStyle } from 'styled-components';
+
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+`;
+
+const GameContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 10px;
+`;
+
+const Title = styled.h1`
+  margin: 0;
+  color: #333;
+`;
 
 const App: React.FC = () => {
   const [cards, setCards] = useState<CardType[]>([]);
@@ -72,8 +102,9 @@ const App: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Memory Game</h1>
+    <GameContainer>
+      <GlobalStyle />
+      <Title>Memory Game</Title>
       <Board cards={cards} onCardClick={handleCardClick} />
       {cards.every(card => card.isMatched) && (
         <div>
@@ -81,7 +112,7 @@ const App: React.FC = () => {
           <button onClick={initializeGame}>Restart</button>
         </div>
       )}
-    </div>
+    </GameContainer>
   );
 };
 
